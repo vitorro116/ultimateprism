@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { MessageSquare, Calendar, Laugh, FlaskConical, Archive, Grid2X2, Users } from 'lucide-react';
 
 const SectionBoxes = () => {
@@ -64,8 +65,8 @@ const SectionBoxes = () => {
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {sections.map((section, index) => (
-            <a 
-              href={section.link} 
+            <Link 
+              to={section.link} 
               key={index}
               className="group relative"
             >
@@ -79,7 +80,7 @@ const SectionBoxes = () => {
                 </div>
                 <p className="text-gray-400 text-sm">{section.description}</p>
               </div>
-            </a>
+            </Link>
           ))}
         </div>
       </div>

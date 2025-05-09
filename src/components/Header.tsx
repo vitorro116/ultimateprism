@@ -29,11 +29,11 @@ const Header = () => {
 
   const navItems = [
     { label: "ФОРУМ", href: "/forum", highlight: location.pathname.startsWith('/forum') },
-    { label: "ИВЕНТЫ", href: "/events" },
-    { label: "МЕМЫ", href: "/memes" },
-    { label: "ЛАБОРАТОРИЯ", href: "/lab" },
-    { label: "АРХИВ", href: "/vault" },
-    { label: "ПИКСЕЛИ", href: "/pixels" },
+    { label: "ИВЕНТЫ", href: "/events", highlight: location.pathname.startsWith('/events') },
+    { label: "МЕМЫ", href: "/memes", highlight: location.pathname.startsWith('/memes') },
+    { label: "ЛАБОРАТОРИЯ", href: "/lab", highlight: location.pathname.startsWith('/lab') },
+    { label: "АРХИВ", href: "/vault", highlight: location.pathname.startsWith('/vault') },
+    { label: "ПИКСЕЛИ", href: "/pixels", highlight: location.pathname.startsWith('/pixels') },
   ];
 
   return (
