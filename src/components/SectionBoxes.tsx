@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { MessageSquare, Calendar, Laugh, Flask, Archive, Grid2X2, Users } from 'lucide-react';
+import { MessageSquare, Calendar, Laugh, FlaskConical, Archive, Grid2X2, Users } from 'lucide-react';
 
 const SectionBoxes = () => {
   const sections = [
@@ -28,7 +28,7 @@ const SectionBoxes = () => {
     {
       title: "ЛАБОРАТОРИЯ",
       description: "Безумные эксперименты",
-      icon: <Flask className="text-purple-400" />,
+      icon: <FlaskConical className="text-purple-400" />,
       link: "/lab",
       color: "from-purple-400/20 to-purple-400/5"
     },
