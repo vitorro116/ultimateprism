@@ -254,12 +254,68 @@ const ForumCategory = () => {
             <Card className="bg-black/30 backdrop-blur-md border-prism-muted/30 text-center py-12">
               <CardContent>
                 <p className="text-gray-400 mb-4">В этой категории пока нет тем</p>
-                <DialogTrigger asChild>
-                  <Button className="bg-gradient-to-r from-prism-accent to-prism-accent-2">
-                    <PlusCircle className="mr-2 h-4 w-4" />
-                    Создать первую тему
-                  </Button>
-                </DialogTrigger>
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button className="bg-gradient-to-r from-prism-accent to-prism-accent-2">
+                      <PlusCircle className="mr-2 h-4 w-4" />
+                      Создать первую тему
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="bg-prism-dark border-prism-muted max-w-xl">
+                    <DialogHeader>
+                      <DialogTitle>Создание новой темы</DialogTitle>
+                      <DialogDescription>
+                        В категории: {category.name}
+                      </DialogDescription>
+                    </DialogHeader>
+                    
+                    <Form {...form}>
+                      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                        <FormField
+                          control={form.control}
+                          name="title"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Название темы</FormLabel>
+                              <FormControl>
+                                <Input placeholder="Введите название темы" {...field} />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        
+                        <FormField
+                          control={form.control}
+                          name="content"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Содержание</FormLabel>
+                              <FormControl>
+                                <Textarea 
+                                  placeholder="Введите содержание первого поста" 
+                                  className="min-h-[150px]"
+                                  {...field} 
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        
+                        <div className="flex justify-end">
+                          <Button 
+                            type="submit" 
+                            disabled={isSubmitting}
+                            className="bg-gradient-to-r from-prism-accent to-prism-accent-2"
+                          >
+                            {isSubmitting ? 'Создание...' : 'Создать тему'}
+                          </Button>
+                        </div>
+                      </form>
+                    </Form>
+                  </DialogContent>
+                </Dialog>
               </CardContent>
             </Card>
           ) : (
