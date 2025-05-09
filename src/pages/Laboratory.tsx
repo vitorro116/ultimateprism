@@ -108,7 +108,10 @@ const Laboratory = () => {
                       <span className="text-gray-400">Прогресс</span>
                       <span className="text-prism-accent">{experiment.progress}%</span>
                     </div>
-                    <Progress value={experiment.progress} className="h-2 bg-prism-muted/30" indicatorClassName="bg-gradient-to-r from-prism-accent to-purple-400" />
+                    <Progress 
+                      value={experiment.progress} 
+                      className="h-2 bg-prism-muted/30" 
+                    />
                   </div>
                   
                   <div className="text-sm text-gray-400">
