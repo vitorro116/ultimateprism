@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -8,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/hooks/useAuth';
-import { supabase } from '@/integrations/supabase/client';
+import { supabase, typedFrom } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { 
   Dialog, DialogContent, DialogDescription, DialogFooter, 
@@ -41,6 +40,7 @@ type ExperimentType = {
   locked: boolean;
   user_id: string;
   created_at: string;
+  updated_at: string;
   profiles?: {
     username: string;
     avatar_url: string | null;
@@ -67,9 +67,7 @@ const Laboratory = () => {
     const fetchExperiments = async () => {
       setLoading(true);
       try {
-        // Using the any type to work around type issues until types are regenerated
-        const { data, error } = await (supabase as any)
-          .from('lab_experiments')
+        const { data, error } = await typedFrom('lab_experiments')
           .select(`
             *,
             profiles:user_id (username, avatar_url)
@@ -99,9 +97,7 @@ const Laboratory = () => {
     setIsSubmitting(true);
     
     try {
-      // Using the any type to work around type issues until types are regenerated
-      const { data, error } = await (supabase as any)
-        .from('lab_experiments')
+      const { data, error } = await typedFrom('lab_experiments')
         .insert({
           title: values.title,
           description: values.description,

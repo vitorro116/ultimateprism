@@ -9,6 +9,146 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      archive_items: {
+        Row: {
+          content_type: string
+          created_at: string
+          description: string
+          file_url: string | null
+          id: string
+          is_public: boolean
+          tags: string[] | null
+          title: string
+          user_id: string
+        }
+        Insert: {
+          content_type: string
+          created_at?: string
+          description: string
+          file_url?: string | null
+          id?: string
+          is_public?: boolean
+          tags?: string[] | null
+          title: string
+          user_id: string
+        }
+        Update: {
+          content_type?: string
+          created_at?: string
+          description?: string
+          file_url?: string | null
+          id?: string
+          is_public?: boolean
+          tags?: string[] | null
+          title?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      community_members: {
+        Row: {
+          bio: string | null
+          contribution_points: number
+          id: string
+          joined_at: string
+          membership_type: string
+          social_links: Json | null
+          user_id: string
+        }
+        Insert: {
+          bio?: string | null
+          contribution_points?: number
+          id?: string
+          joined_at?: string
+          membership_type: string
+          social_links?: Json | null
+          user_id: string
+        }
+        Update: {
+          bio?: string | null
+          contribution_points?: number
+          id?: string
+          joined_at?: string
+          membership_type?: string
+          social_links?: Json | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      event_participants: {
+        Row: {
+          event_id: string
+          id: string
+          joined_at: string
+          user_id: string
+        }
+        Insert: {
+          event_id: string
+          id?: string
+          joined_at?: string
+          user_id: string
+        }
+        Update: {
+          event_id?: string
+          id?: string
+          joined_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "event_participants_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      events: {
+        Row: {
+          created_at: string
+          current_participants: number
+          description: string
+          event_date: string
+          id: string
+          image_url: string | null
+          is_featured: boolean
+          is_online: boolean
+          location: string | null
+          max_participants: number | null
+          title: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          current_participants?: number
+          description: string
+          event_date: string
+          id?: string
+          image_url?: string | null
+          is_featured?: boolean
+          is_online?: boolean
+          location?: string | null
+          max_participants?: number | null
+          title: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          current_participants?: number
+          description?: string
+          event_date?: string
+          id?: string
+          image_url?: string | null
+          is_featured?: boolean
+          is_online?: boolean
+          location?: string | null
+          max_participants?: number | null
+          title?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       forum_categories: {
         Row: {
           created_at: string
@@ -126,6 +266,149 @@ export type Database = {
           },
         ]
       }
+      lab_experiments: {
+        Row: {
+          contributors: number
+          created_at: string
+          description: string
+          id: string
+          locked: boolean
+          progress: number
+          status: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          contributors?: number
+          created_at?: string
+          description: string
+          id?: string
+          locked?: boolean
+          progress?: number
+          status?: string
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          contributors?: number
+          created_at?: string
+          description?: string
+          id?: string
+          locked?: boolean
+          progress?: number
+          status?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      memes: {
+        Row: {
+          comments: number
+          created_at: string
+          description: string | null
+          id: string
+          image_url: string
+          is_ai_generated: boolean
+          likes: number
+          title: string
+          user_id: string
+        }
+        Insert: {
+          comments?: number
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url: string
+          is_ai_generated?: boolean
+          likes?: number
+          title: string
+          user_id: string
+        }
+        Update: {
+          comments?: number
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string
+          is_ai_generated?: boolean
+          likes?: number
+          title?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      pixels_canvas: {
+        Row: {
+          created_at: string
+          ends_at: string | null
+          height: number
+          id: string
+          is_active: boolean
+          title: string
+          width: number
+        }
+        Insert: {
+          created_at?: string
+          ends_at?: string | null
+          height: number
+          id?: string
+          is_active?: boolean
+          title: string
+          width: number
+        }
+        Update: {
+          created_at?: string
+          ends_at?: string | null
+          height?: number
+          id?: string
+          is_active?: boolean
+          title?: string
+          width?: number
+        }
+        Relationships: []
+      }
+      pixels_data: {
+        Row: {
+          canvas_id: string
+          color: string
+          id: string
+          placed_at: string
+          user_id: string
+          x: number
+          y: number
+        }
+        Insert: {
+          canvas_id: string
+          color: string
+          id?: string
+          placed_at?: string
+          user_id: string
+          x: number
+          y: number
+        }
+        Update: {
+          canvas_id?: string
+          color?: string
+          id?: string
+          placed_at?: string
+          user_id?: string
+          x?: number
+          y?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pixels_data_canvas_id_fkey"
+            columns: ["canvas_id"]
+            isOneToOne: false
+            referencedRelation: "pixels_canvas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -155,6 +438,14 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      increment_meme_comments: {
+        Args: { meme_id: string }
+        Returns: undefined
+      }
+      increment_meme_likes: {
+        Args: { meme_id: string }
+        Returns: undefined
+      }
       increment_topic_views: {
         Args: { topic_id: string }
         Returns: undefined
