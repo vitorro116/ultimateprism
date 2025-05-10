@@ -6,19 +6,19 @@ const TeamSection = () => {
     {
       name: "В. И. Титов",
       alias: "Quazylix",
-      role: "Основатель",
+      role: "",
       image: "/placeholder.svg"
     },
     {
       name: "К. К. Токц",
       alias: "Pechenie",
-      role: "Разработчик",
+      role: "",
       image: "/placeholder.svg"
     },
     {
       name: "А. В. Зайцев",
       alias: "Bowser",
-      role: "Архитектор",
+      role: "",
       image: "/placeholder.svg"
     }
   ];
