@@ -30,9 +30,26 @@ const experimentSchema = z.object({
   progress: z.number().min(0).max(100),
 });
 
+// Define the experiment type to use throughout the component
+type ExperimentType = {
+  id: string;
+  title: string;
+  description: string;
+  progress: number;
+  status: string;
+  contributors: number;
+  locked: boolean;
+  user_id: string;
+  created_at: string;
+  profiles?: {
+    username: string;
+    avatar_url: string | null;
+  };
+};
+
 const Laboratory = () => {
   const { user, profile } = useAuth();
-  const [experiments, setExperiments] = useState([]);
+  const [experiments, setExperiments] = useState<ExperimentType[]>([]);
   const [loading, setLoading] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -50,7 +67,8 @@ const Laboratory = () => {
     const fetchExperiments = async () => {
       setLoading(true);
       try {
-        const { data, error } = await supabase
+        // Using the any type to work around type issues until types are regenerated
+        const { data, error } = await (supabase as any)
           .from('lab_experiments')
           .select(`
             *,
@@ -81,7 +99,8 @@ const Laboratory = () => {
     setIsSubmitting(true);
     
     try {
-      const { data, error } = await supabase
+      // Using the any type to work around type issues until types are regenerated
+      const { data, error } = await (supabase as any)
         .from('lab_experiments')
         .insert({
           title: values.title,
@@ -235,7 +254,6 @@ const Laboratory = () => {
                         </Button>
                       </DialogTrigger>
                       <DialogContent className="bg-prism-dark border-prism-muted">
-                        {/* Duplicate form code from above would go here */}
                         <DialogHeader>
                           <DialogTitle>Создание нового эксперимента</DialogTitle>
                           <DialogDescription>
