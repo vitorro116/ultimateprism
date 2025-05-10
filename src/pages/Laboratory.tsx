@@ -41,10 +41,11 @@ type ExperimentType = {
   user_id: string;
   created_at: string;
   updated_at: string;
+  // Make profiles optional and nullable to handle cases where the relation might not be found
   profiles?: {
     username: string;
     avatar_url: string | null;
-  };
+  } | null;
 };
 
 const Laboratory = () => {
@@ -67,16 +68,27 @@ const Laboratory = () => {
     const fetchExperiments = async () => {
       setLoading(true);
       try {
-        const { data, error } = await typedFrom('lab_experiments')
+        // Use direct Supabase query without typedFrom to avoid type issues for now
+        const { data, error } = await supabase
+          .from('lab_experiments')
           .select(`
             *,
-            profiles:user_id (username, avatar_url)
+            profiles:profiles(username, avatar_url)
           `)
           .order('created_at', { ascending: false });
           
         if (error) throw error;
         
-        setExperiments(data || []);
+        // Handle the data safely by ensuring the correct type
+        const safeData = (data || []).map(item => {
+          return {
+            ...item,
+            // Ensure profiles is properly handled
+            profiles: item.profiles || { username: 'Неизвестный', avatar_url: null }
+          } as ExperimentType;
+        });
+        
+        setExperiments(safeData);
       } catch (err) {
         console.error('Ошибка при загрузке экспериментов:', err);
         toast.error('Не удалось загрузить список экспериментов');
@@ -97,7 +109,9 @@ const Laboratory = () => {
     setIsSubmitting(true);
     
     try {
-      const { data, error } = await typedFrom('lab_experiments')
+      // Use direct Supabase query without typedFrom to avoid type issues
+      const { data, error } = await supabase
+        .from('lab_experiments')
         .insert({
           title: values.title,
           description: values.description,
@@ -106,15 +120,21 @@ const Laboratory = () => {
           status: values.progress === 100 ? 'завершен' : 'в процессе',
           contributors: 1,
         })
-        .select(`
-          *,
-          profiles:user_id (username, avatar_url)
-        `)
+        .select()
         .single();
         
       if (error) throw error;
+
+      // Add the experiment with safe profiles data
+      const newExperiment: ExperimentType = {
+        ...data,
+        profiles: profile ? {
+          username: profile.username || 'Неизвестный',
+          avatar_url: profile.avatar_url
+        } : { username: 'Неизвестный', avatar_url: null }
+      };
       
-      setExperiments([data, ...experiments]);
+      setExperiments([newExperiment, ...experiments]);
       toast.success('Эксперимент успешно создан!');
       form.reset();
       setIsDialogOpen(false);
